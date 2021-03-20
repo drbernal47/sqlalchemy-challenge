@@ -2,6 +2,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
+import numpy as np
 import datetime as dt
 
 from flask import Flask, jsonify
@@ -9,7 +10,7 @@ from flask import Flask, jsonify
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("sqlite:///hawaii.sqlite")
+engine = create_engine("sqlite:///Resources/hawaii.sqlite")
 
 # reflect an existing database into a new model
 Base = automap_base()
@@ -94,7 +95,7 @@ def tobs():
         temp_dict = {}
         temp_dict['date'] = date
         temp_dict['tobs'] = tobs
-        temps.append(temps_dict)
+        temps.append(temp_dict)
 
     return jsonify(temps)
 
@@ -121,7 +122,7 @@ def start_date(start):
 
 
 @app.route("/api/v1.0/<start>/<end>")
-def start_date(start, end):
+def start_end_date(start, end):
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
