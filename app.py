@@ -43,14 +43,11 @@ def precipitation():
     session.close()
 
     # Convert the query results to a dictionary using date as the key and prcp as the value
-    precip = []
+    precip_dict = {}
     for date, prcp in results:
-        precip_dict = {}
-        precip_dict['date'] = date
-        precip_dict['prcp'] = prcp
-        precip.append(precip_dict)
+        precip_dict[date] = prcp
 
-    return jsonify(precip)
+    return jsonify(precip_dict)
 
 @app.route("/api/v1.0/stations")
 def stations():
@@ -118,7 +115,7 @@ def start_date(start):
     temp_dict['TAVG']=TAVG
     temp_dict['TMAX']=TMAX
 
-    return jsonify(temp_dict)
+    return jsonify(temp_dict), 404
 
 
 @app.route("/api/v1.0/<start>/<end>")
@@ -139,7 +136,7 @@ def start_end_date(start, end):
     temp_dict['TAVG']=TAVG
     temp_dict['TMAX']=TMAX
 
-    return jsonify(temp_dict)
+    return jsonify(temp_dict), 404
 
 
 @app.route("/")
@@ -147,11 +144,11 @@ def welcome():
     return (
         f"Welcome to the Hawaii Climate Data API!<br/>"
         f"Available Routes:<br/>"
-        f"/api/v1.0/precipitation"
-        f"/api/v1.0/stations"
-        f"/api/v1.0/tobs"
-        f"/api/v1.0/<start>"
-        f"/api/v1.0/<start>/<end>"
+        f"/api/v1.0/precipitation<br/>"
+        f"/api/v1.0/stations<br/>"
+        f"/api/v1.0/tobs<br/>"
+        f"/api/v1.0/&ltstart&gt<br/>"
+        f"/api/v1.0/&ltstart&gt/&ltend&gt<br/>"
     )
 
 
